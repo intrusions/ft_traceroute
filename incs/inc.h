@@ -28,6 +28,10 @@
 //                                   Define                                  //
 // ========================================================================= //
 
+#define FLAG_D 0x01
+
+#define TIMEOUT 1
+
 
 // ========================================================================= //
 //                                  Typedef                                  //
@@ -48,16 +52,30 @@ typedef int64_t i64;
 //                                  Structure                                //
 // ========================================================================= //
 
+typedef struct {
+    i32         sockfd;
+    u16         pid;
+    u8          flags;
+    
+    char        *hostname_in;
+    char        hostname[INET6_ADDRSTRLEN];
+
+    struct sockaddr_in dest;
+} t_data;
+
 
 // ========================================================================= //
 //                                  Prototype                                //
 // ========================================================================= //
 
-/* core */
 
+/* core */
+bool    reverse_dns(char *hostname_in, char *hostname);
 
 /* utils */
-
+u16     checksum(void *b, int len);
+void    print_man();
+bool    manage_flags(i32 ac, char **av, u8 *flags);
 
 /* debug */
 

@@ -22,4 +22,8 @@ CFLAGS_DBG :=                       \
     -fstack-protector-strong        \
     -fno-optimize-sibling-calls 
 
-SRCS :=                             
+SRCS :=                             \
+    core/reverse_dns.c              \
+    utils/print.c                   \
+    utils/manage_flags.c            \
+    utils/checksum.c                
