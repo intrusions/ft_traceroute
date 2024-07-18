@@ -30,7 +30,9 @@
 
 #define FLAG_D 0x01
 
-#define TIMEOUT 1
+#define TIMEOUT     1
+#define MAX_HOPS    30
+#define PACKET_SIZE 60
 
 
 // ========================================================================= //
@@ -63,6 +65,16 @@ typedef struct {
     struct sockaddr_in dest;
 } t_data;
 
+typedef struct {
+    struct icmphdr  hdr;
+    char            payload[PACKET_SIZE - sizeof(struct icmphdr)];
+} t_packet;
+
+typedef struct {
+    struct timeval  start_time;
+    struct timeval  end_time;
+    char            src_ip[INET6_ADDRSTRLEN];
+} t_time;
 
 // ========================================================================= //
 //                                  Prototype                                //
@@ -70,15 +82,21 @@ typedef struct {
 
 
 /* core */
-bool    reverse_dns(char *hostname_in, char *hostname);
+bool reverse_dns(char *hostname_in, char *hostname);
+void prepare_packet(t_data *data, t_packet *packet, u16 n_sequence);
+void send_packet(t_data *data, t_packet *packet, struct timeval *start_time, u16 *n_sequence);
+void recv_packet(t_data *data, char *response, struct timeval *end_time, u16 *n_sequence);
 
 /* utils */
 u16     checksum(void *b, int len);
 void    print_man();
 bool    manage_flags(i32 ac, char **av, u8 *flags);
+double  calcul_latency(struct timeval start_time, struct timeval end_time);
+void    print_line(u16 ttl, t_time times[3]);
+
 
 /* debug */
-
+void print_sent_packet(t_packet *packet);
 
 
 #endif /* INC_H */

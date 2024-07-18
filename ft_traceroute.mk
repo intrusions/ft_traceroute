@@ -24,6 +24,11 @@ CFLAGS_DBG :=                       \
 
 SRCS :=                             \
     core/reverse_dns.c              \
+    core/prepare_packet.c           \
+    core/send_packet.c              \
+    core/recv_packet.c              \
+    utils/calcul.c                  \
     utils/print.c                   \
     utils/manage_flags.c            \
-    utils/checksum.c                
+    utils/checksum.c                \
+    debug/debug_print.c                
