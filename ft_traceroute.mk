@@ -31,4 +31,6 @@ SRCS :=                             \
     utils/print.c                   \
     utils/manage_flags.c            \
     utils/checksum.c                \
+    utils/close.c                   \
+    utils/ip_to_hostname.c          \
     debug/debug_print.c                

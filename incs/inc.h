@@ -22,6 +22,7 @@
 #include <netinet/ip_icmp.h>
 #include <arpa/inet.h>
 #include <math.h>
+#include <errno.h>
 
 
 // ========================================================================= //
@@ -33,6 +34,14 @@
 #define TIMEOUT     1
 #define MAX_HOPS    30
 #define PACKET_SIZE 60
+
+
+// ========================================================================= //
+//                                   Macro                                   //
+// ========================================================================= //
+
+#define __ip_str(addr) inet_ntoa(*(in_addr *)&(addr))
+#define __log_error(error) (void)fprintf(stderr, "%s: %s\n", error, strerror(errno))
 
 
 // ========================================================================= //
@@ -49,31 +58,40 @@ typedef int16_t i16;
 typedef int32_t i32;
 typedef int64_t i64;
 
+typedef struct sockaddr_in  sockaddr_in;
+typedef struct sockaddr     sockaddr;
+typedef struct addrinfo     addrinfo;
+typedef struct in_addr      in_addr;
+typedef struct icmphdr      icmphdr;
+typedef struct iphdr        iphdr;
+typedef struct timeval      timeval;
 
 // ========================================================================= //
 //                                  Structure                                //
 // ========================================================================= //
 
 typedef struct {
-    i32         sockfd;
-    u16         pid;
-    u8          flags;
+    i32 sockfd;
+    u16 pid;
+    u8  flags;
     
-    char        *hostname_in;
-    char        hostname[INET6_ADDRSTRLEN];
+    char    *addr_in;
+    char    addr[INET6_ADDRSTRLEN];
 
-    struct sockaddr_in dest;
+    sockaddr_in dest;
 } t_data;
 
 typedef struct {
-    struct icmphdr  hdr;
-    char            payload[PACKET_SIZE - sizeof(struct icmphdr)];
+    icmphdr hdr;
+    char    payload[PACKET_SIZE - sizeof(icmphdr)];
 } t_packet;
 
 typedef struct {
-    struct timeval  start_time;
-    struct timeval  end_time;
-    char            src_ip[INET6_ADDRSTRLEN];
+    timeval start_time;
+    timeval end_time;
+    
+    char    src_ip[INET6_ADDRSTRLEN];
+    char    src_hostname[NI_MAXHOST];
 } t_time;
 
 // ========================================================================= //
@@ -82,17 +100,19 @@ typedef struct {
 
 
 /* core */
-bool reverse_dns(char *hostname_in, char *hostname);
+bool reverse_dns(char *addr_in, char *addr);
 void prepare_packet(t_data *data, t_packet *packet, u16 n_sequence);
-void send_packet(t_data *data, t_packet *packet, struct timeval *start_time, u16 *n_sequence);
-void recv_packet(t_data *data, char *response, struct timeval *end_time, u16 *n_sequence);
+void send_packet(t_data *data, t_packet *packet, timeval *start_time, u16 *n_sequence);
+void recv_packet(t_data *data, char *response, timeval *end_time, u16 *n_sequence);
 
 /* utils */
 u16     checksum(void *b, int len);
 void    print_man();
 bool    manage_flags(i32 ac, char **av, u8 *flags);
-double  calcul_latency(struct timeval start_time, struct timeval end_time);
+double  calcul_latency(timeval start_time, timeval end_time);
 void    print_line(u16 ttl, t_time times[3]);
+void    close_sockfd_and_exit(t_data *data);
+bool    ip_to_hostname(char *ip, char *res);
 
 
 /* debug */

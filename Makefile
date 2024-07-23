@@ -27,6 +27,17 @@ $(NAME): $(SRCS_OBJS)
 g: CFLAGS += $(CFLAGS_DBG)
 g: all
 
+sparse:
+	find . -name "*.c" \
+		-not -path "" \
+		-type f	\
+		-exec \
+			sparse \
+				-Wno-decl \
+				-Wsparse-error \
+				-I $(INCS_DIR) \
+				-style=file -i {} \; 
+
 clean:
 	rm -rf *.dSYM
 	rm -rf $(OBJS_DIR)
