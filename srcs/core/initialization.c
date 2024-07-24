@@ -6,7 +6,7 @@ static bool open_sockfd(t_data *data)
     return (!(data->sockfd < 0));
 }
 
-bool initialization(t_data *data)
+bool socket_initialization(t_data *data)
 {
     if (!open_sockfd(data)) {
         __log_error("socket error");
@@ -29,4 +29,11 @@ bool initialization(t_data *data)
         return false;
     }
     return true;
+}
+
+void options_initialization(t_options *option)
+{
+    option->option_first_ttl_value = TRACEROUTE_DEFAULT_FIRST_TTL;
+    option->option_max_ttl_value = TRACEROUTE_DEFAULT_MAX_TTL;
+    option->option_nqueries_value = TRACEROUTE_DEFAULT_NQUERIES;
 }

@@ -24,6 +24,13 @@ static bool set_option_value(t_data *data, i32 index, i32 ac, char **av, u8 flag
             fprintf(stderr, "max hops cannot be more than 255\n");
             return false;
         }
+    } else if (!strcmp(av[index - 1], "-q")) {
+        data->option.option_nqueries_value = atoi(av[index]);
+        
+        if (data->option.option_nqueries_value > 10) {
+            fprintf(stderr, "no more than 10 probes per hop\n");
+            return false;
+        }
     }
     
     data->flags |= flag;
@@ -41,9 +48,11 @@ bool manage_flags(t_data *data, i32 ac, char **av)
             data->flags |= FLAG_D;
         } else if (!strcmp(av[index], "-n")) {
             data->flags |= FLAG_N;
-        }  else if (!strcmp(av[index], "-f") && !set_option_value(data, index, ac, av, FLAG_F)) {
+        } else if (!strcmp(av[index], "-f") && !set_option_value(data, index, ac, av, FLAG_F)) {
             return false;
-        }  else if (!strcmp(av[index], "-m") && !set_option_value(data, index, ac, av, FLAG_M)) {
+        } else if (!strcmp(av[index], "-m") && !set_option_value(data, index, ac, av, FLAG_M)) {
+            return false;
+        } else if (!strcmp(av[index], "-q") && !set_option_value(data, index, ac, av, FLAG_Q)) {
             return false;
         }
     }

@@ -5,7 +5,7 @@ static void traceroute(t_data *data)
     t_packet packet;
     char response[MAX_PACKET_SIZE];
     u16 n_sequence;
-    t_time times[3];
+    t_time times[data->option.option_nqueries_value];
     iphdr *ip_hdr;
 
     memset(response, 0, sizeof(response));
@@ -18,7 +18,7 @@ static void traceroute(t_data *data)
         memset(times, 0, sizeof(times));
         n_sequence = 0;
 
-        for (u8 i = 0; i < 3; i++) {
+        for (u8 i = 0; i < data->option.option_nqueries_value; i++) {
             prepare_packet(data, &packet, n_sequence);
             send_packet(data, &packet, &times[i].start_time, &n_sequence);
             recv_packet(data, response, &times[i].end_time, &n_sequence);
@@ -32,7 +32,7 @@ static void traceroute(t_data *data)
             strcpy(times[i].src_ip, __ip_str(ip_hdr->saddr));
             strcpy(times[i].src_hostname, hostname_response_sender);
         }
-        print_line(ttl, times, data->flags);
+        print_line(data, ttl, times);
 
         if (!strcmp(times[0].src_ip, data->addr)) {
             break ;
@@ -44,11 +44,9 @@ int main(int ac, char **av)
 {
     t_data data;
     memset(&data, 0, sizeof(data));
-    
     data.addr_in = av[ac - 1];
-    data.option.option_first_ttl_value = TRACEROUTE_DEFAULT_FIRST_TTL;
-    data.option.option_max_ttl_value = TRACEROUTE_DEFAULT_MAX_TTL;
-    
+    options_initialization(&data.option);
+
     av++, ac--;
 
     if (!ac) {
@@ -59,7 +57,7 @@ int main(int ac, char **av)
     if (!manage_flags(&data, ac, av) || !reverse_dns(data.addr_in, data.addr))
         return EXIT_FAILURE;
 
-    if (!initialization(&data))
+    if (!socket_initialization(&data))
         close_sockfd_and_exit(&data);
 
     traceroute(&data);

@@ -34,10 +34,12 @@
 #define FLAG_F 0x01 << 1
 #define FLAG_M 0x01 << 2
 #define FLAG_N 0x01 << 3
+#define FLAG_Q 0x01 << 4
 
 #define TIMEOUT                         1
 #define TRACEROUTE_DEFAULT_FIRST_TTL    1
 #define TRACEROUTE_DEFAULT_MAX_TTL      30
+#define TRACEROUTE_DEFAULT_NQUERIES     3
 #define PACKET_SIZE                     60
 #define MAX_PACKET_SIZE                 1024
 
@@ -79,6 +81,7 @@ typedef struct timeval      timeval;
 typedef struct {
     u32     option_first_ttl_value;
     u32     option_max_ttl_value;
+    u32     option_nqueries_value;
 }   t_options;
 
 typedef struct {
@@ -116,14 +119,15 @@ bool reverse_dns(char *addr_in, char *addr);
 void prepare_packet(t_data *data, t_packet *packet, u16 n_sequence);
 void send_packet(t_data *data, t_packet *packet, timeval *start_time, u16 *n_sequence);
 void recv_packet(t_data *data, char *response, timeval *end_time, u16 *n_sequence);
-bool initialization(t_data *data);
+bool socket_initialization(t_data *data);
+void options_initialization(t_options *option);
 
 /* utils */
 u16     checksum(void *b, int len);
 void    print_man();
 bool    manage_flags(t_data *data, i32 ac, char **av);
 double  calcul_latency(timeval start_time, timeval end_time);
-void    print_line(u16 ttl, t_time times[3], u8 flags);
+void    print_line(t_data *data, u16 ttl, t_time times[]);
 void    close_sockfd_and_exit(t_data *data);
 bool    ip_to_hostname(char *ip, char *res);
 
