@@ -1,40 +1,9 @@
 #include "inc.h"
 
-static bool open_sockfd(t_data *data)
-{
-    data->sockfd = socket(AF_INET, SOCK_RAW, IPPROTO_ICMP);
-    return (!(data->sockfd < 0));
-}
-
-static bool initialization(t_data *data)
-{
-    if (!open_sockfd(data)) {
-        __log_error("socket error");
-        return false;
-    }
-
-    data->pid = getpid();
-
-    memset(&data->dest, 0, sizeof(data->dest));
-    data->dest.sin_family = AF_INET;
-    
-    if (inet_pton(AF_INET, data->addr, &data->dest.sin_addr) <= 0) {
-        __log_error("inet_pton error");
-        return false;
-    }
-
-    timeval tv = {TIMEOUT, 0};
-    if (setsockopt(data->sockfd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv)) != 0) {
-        __log_error("setsockopt error");
-        return false;
-    }
-    return true;
-}
-
 static void traceroute(t_data *data)
 {
     t_packet packet;
-    char response[PACKET_SIZE];
+    char response[MAX_PACKET_SIZE];
     u16 n_sequence;
     t_time times[3];
     iphdr *ip_hdr;
@@ -75,6 +44,7 @@ int main(int ac, char **av)
 {
     t_data data;
     memset(&data, 0, sizeof(data));
+    
     data.addr_in = av[ac - 1];
     data.option.option_first_ttl_value = TRACEROUTE_DEFAULT_FIRST_TTL;
     data.option.option_max_ttl_value = TRACEROUTE_DEFAULT_MAX_TTL;

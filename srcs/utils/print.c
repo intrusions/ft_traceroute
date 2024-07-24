@@ -7,6 +7,8 @@ void print_man(void)
         "   ft_traceroute [options] <destination>\n"
         "Options:\n"
         "   -d                 debug mode\n"
+        "   -m                 max_ttl\n"
+        "   -f                 first_ttl\n"
         "   -? -h --help       print manual\n"
     );
 }

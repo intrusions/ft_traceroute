@@ -27,6 +27,7 @@ SRCS :=                             \
     core/prepare_packet.c           \
     core/send_packet.c              \
     core/recv_packet.c              \
+    core/initialization.c           \
     utils/calcul.c                  \
     utils/print.c                   \
     utils/manage_flags.c            \

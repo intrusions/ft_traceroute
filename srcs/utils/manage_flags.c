@@ -7,7 +7,6 @@ static bool set_option_value(t_data *data, i32 index, i32 ac, char **av, u8 flag
         return false;
     }
 
-
     u8 len = strlen(av[++index]);
     for (u8 i = 0; i < len; i++) {
         if (!isdigit(av[index][i])) {
@@ -15,7 +14,6 @@ static bool set_option_value(t_data *data, i32 index, i32 ac, char **av, u8 flag
             return false;
         }
     }
-
 
     if (!strcmp(av[index - 1], "-f")) {
         data->option.option_first_ttl_value = atoi(av[index]);
@@ -29,7 +27,6 @@ static bool set_option_value(t_data *data, i32 index, i32 ac, char **av, u8 flag
     }
     
     data->flags |= flag;
-
     return true;
 }
 

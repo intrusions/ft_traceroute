@@ -38,6 +38,7 @@
 #define TRACEROUTE_DEFAULT_FIRST_TTL    1
 #define TRACEROUTE_DEFAULT_MAX_TTL      30
 #define PACKET_SIZE                     60
+#define MAX_PACKET_SIZE                 1024
 
 
 // ========================================================================= //
@@ -114,19 +115,20 @@ bool reverse_dns(char *addr_in, char *addr);
 void prepare_packet(t_data *data, t_packet *packet, u16 n_sequence);
 void send_packet(t_data *data, t_packet *packet, timeval *start_time, u16 *n_sequence);
 void recv_packet(t_data *data, char *response, timeval *end_time, u16 *n_sequence);
+bool initialization(t_data *data);
 
 /* utils */
 u16     checksum(void *b, int len);
 void    print_man();
-bool manage_flags(t_data *data, i32 ac, char **av);
+bool    manage_flags(t_data *data, i32 ac, char **av);
 double  calcul_latency(timeval start_time, timeval end_time);
 void    print_line(u16 ttl, t_time times[3]);
 void    close_sockfd_and_exit(t_data *data);
 bool    ip_to_hostname(char *ip, char *res);
 
-
 /* debug */
 void print_sent_packet(t_packet *packet);
+void print_received_packet(char *response);
 
 
 #endif /* INC_H */
