@@ -41,8 +41,10 @@ static void traceroute(t_data *data)
 
     memset(response, 0, sizeof(response));
 
-    printf("traceroute to %s (%s), %d hops max, %d byte packets\n", data->addr_in, data->addr, MAX_HOPS, PACKET_SIZE);
-    for (u8 ttl = 1; ttl <= MAX_HOPS; ttl++) {
+    printf("traceroute to %s (%s), %d hops max, %d byte packets\n",
+                data->addr_in, data->addr, data->option.option_max_ttl_value, PACKET_SIZE);
+
+    for (u8 ttl = data->option.option_first_ttl_value; ttl <= data->option.option_max_ttl_value; ttl++) {
         setsockopt(data->sockfd, IPPROTO_IP, IP_TTL, &ttl, sizeof(ttl));
         memset(times, 0, sizeof(times));
         n_sequence = 0;
@@ -74,6 +76,8 @@ int main(int ac, char **av)
     t_data data;
     memset(&data, 0, sizeof(data));
     data.addr_in = av[ac - 1];
+    data.option.option_first_ttl_value = TRACEROUTE_DEFAULT_FIRST_TTL;
+    data.option.option_max_ttl_value = TRACEROUTE_DEFAULT_MAX_TTL;
     
     av++, ac--;
 
@@ -82,7 +86,7 @@ int main(int ac, char **av)
         return EXIT_FAILURE;
     }
 
-    if (!manage_flags(ac, av, &data.flags) || !reverse_dns(data.addr_in, data.addr))
+    if (!manage_flags(&data, ac, av) || !reverse_dns(data.addr_in, data.addr))
         return EXIT_FAILURE;
 
     if (!initialization(&data))

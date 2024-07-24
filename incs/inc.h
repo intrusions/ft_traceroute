@@ -23,17 +23,21 @@
 #include <arpa/inet.h>
 #include <math.h>
 #include <errno.h>
+#include <ctype.h>
 
 
 // ========================================================================= //
 //                                   Define                                  //
 // ========================================================================= //
 
-#define FLAG_D 0x01
+#define FLAG_D 0x01 << 0
+#define FLAG_F 0x01 << 1
+#define FLAG_M 0x01 << 2
 
-#define TIMEOUT     1
-#define MAX_HOPS    30
-#define PACKET_SIZE 60
+#define TIMEOUT                         1
+#define TRACEROUTE_DEFAULT_FIRST_TTL    1
+#define TRACEROUTE_DEFAULT_MAX_TTL      30
+#define PACKET_SIZE                     60
 
 
 // ========================================================================= //
@@ -71,6 +75,11 @@ typedef struct timeval      timeval;
 // ========================================================================= //
 
 typedef struct {
+    u32     option_first_ttl_value;
+    u32     option_max_ttl_value;
+}   t_options;
+
+typedef struct {
     i32 sockfd;
     u16 pid;
     u8  flags;
@@ -78,6 +87,7 @@ typedef struct {
     char    *addr_in;
     char    addr[INET6_ADDRSTRLEN];
 
+    t_options   option;
     sockaddr_in dest;
 } t_data;
 
@@ -108,7 +118,7 @@ void recv_packet(t_data *data, char *response, timeval *end_time, u16 *n_sequenc
 /* utils */
 u16     checksum(void *b, int len);
 void    print_man();
-bool    manage_flags(i32 ac, char **av, u8 *flags);
+bool manage_flags(t_data *data, i32 ac, char **av);
 double  calcul_latency(timeval start_time, timeval end_time);
 void    print_line(u16 ttl, t_time times[3]);
 void    close_sockfd_and_exit(t_data *data);
