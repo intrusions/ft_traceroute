@@ -32,7 +32,7 @@ static void traceroute(t_data *data)
             strcpy(times[i].src_ip, __ip_str(ip_hdr->saddr));
             strcpy(times[i].src_hostname, hostname_response_sender);
         }
-        print_line(ttl, times);
+        print_line(ttl, times, data->flags);
 
         if (!strcmp(times[0].src_ip, data->addr)) {
             break ;

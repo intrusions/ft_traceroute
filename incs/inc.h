@@ -33,6 +33,7 @@
 #define FLAG_D 0x01 << 0
 #define FLAG_F 0x01 << 1
 #define FLAG_M 0x01 << 2
+#define FLAG_N 0x01 << 3
 
 #define TIMEOUT                         1
 #define TRACEROUTE_DEFAULT_FIRST_TTL    1
@@ -122,7 +123,7 @@ u16     checksum(void *b, int len);
 void    print_man();
 bool    manage_flags(t_data *data, i32 ac, char **av);
 double  calcul_latency(timeval start_time, timeval end_time);
-void    print_line(u16 ttl, t_time times[3]);
+void    print_line(u16 ttl, t_time times[3], u8 flags);
 void    close_sockfd_and_exit(t_data *data);
 bool    ip_to_hostname(char *ip, char *res);
 

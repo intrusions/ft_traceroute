@@ -6,14 +6,15 @@ void print_man(void)
         "Usage:\n"
         "   ft_traceroute [options] <destination>\n"
         "Options:\n"
-        "   -d                 debug mode\n"
-        "   -m                 max_ttl\n"
-        "   -f                 first_ttl\n"
-        "   -? -h --help       print manual\n"
+        "   -d                 Debug mode\n"
+        "   -n                 Do not try to map IP addresses to host names when displaying them.\n"
+        "   -m                 Specifies the maximum number of hops (max time-to-live value) traceroute will probe. The default is 30.\n"
+        "   -f                 Specifies with what TTL to start. Defaults to 1. \n"
+        "   -? -h --help       Print help info and exit. \n"
     );
 }
 
-void    print_line(u16 ttl, t_time times[3])
+void    print_line(u16 ttl, t_time times[3], u8 flags)
 {
     fprintf(stdout, "%d  ", ttl);
 
@@ -21,8 +22,14 @@ void    print_line(u16 ttl, t_time times[3])
         if (times[i].end_time.tv_sec == 0 && times[i].end_time.tv_usec == 0) {
             fprintf(stdout, "* ");
         } else {
-            if (i == 0 || strcmp(times[i].src_ip, times[i - 1].src_ip))
-                fprintf(stdout, "%s (%s)  ", times[i].src_hostname, times[i].src_ip);
+            if (i == 0 || strcmp(times[i].src_ip, times[i - 1].src_ip)) {
+                
+                if (flags & FLAG_N)
+                    fprintf(stdout, "%s  ", times[i].src_ip);
+                else
+                    fprintf(stdout, "%s (%s)  ", times[i].src_hostname, times[i].src_ip);
+
+            }
             fprintf(stdout, "%.3f ms  ", calcul_latency(times[i].start_time, times[i].end_time));
         }
     }

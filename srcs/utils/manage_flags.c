@@ -39,6 +39,8 @@ bool manage_flags(t_data *data, i32 ac, char **av)
             exit(EXIT_SUCCESS);
         } else if (!strcmp(av[index], "-d") || !strcmp(av[index], "--debug")) {
             data->flags |= FLAG_D;
+        } else if (!strcmp(av[index], "-n")) {
+            data->flags |= FLAG_N;
         }  else if (!strcmp(av[index], "-f") && !set_option_value(data, index, ac, av, FLAG_F)) {
             return false;
         }  else if (!strcmp(av[index], "-m") && !set_option_value(data, index, ac, av, FLAG_M)) {
