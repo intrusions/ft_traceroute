@@ -35,8 +35,9 @@
 #define FLAG_M 0x01 << 2
 #define FLAG_N 0x01 << 3
 #define FLAG_Q 0x01 << 4
+#define FLAG_W 0x01 << 5
 
-#define TIMEOUT                         1
+#define TRACEROUTE_DEFAULT_TIMEOUT      5
 #define TRACEROUTE_DEFAULT_FIRST_TTL    1
 #define TRACEROUTE_DEFAULT_MAX_TTL      30
 #define TRACEROUTE_DEFAULT_NQUERIES     3
@@ -79,9 +80,10 @@ typedef struct timeval      timeval;
 // ========================================================================= //
 
 typedef struct {
-    u32     option_first_ttl_value;
-    u32     option_max_ttl_value;
-    u32     option_nqueries_value;
+    u32     opt_v_first_ttl;
+    u32     opt_v_max_ttl;
+    u32     opt_v_nqueries;
+    u32     opt_v_timeout;
 }   t_options;
 
 typedef struct {

@@ -10,6 +10,7 @@ void print_man(void)
         "   -n                 Do not try to map IP addresses to host names when displaying them.\n"
         "   -q                 Sets the number of probe packets per hop. The default is 3.\n"
         "   -m                 Specifies the maximum number of hops (max time-to-live value) traceroute will probe. The default is 30.\n"
+        "   -w                 Set the time (in seconds) to wait for a response to a probe (default 5.0 sec).\n"
         "   -f                 Specifies with what TTL to start. Defaults to 1. \n"
         "   -? -h --help       Print help info and exit. \n"
     );
@@ -19,7 +20,7 @@ void    print_line(t_data *data, u16 ttl, t_time times[])
 {
     fprintf(stdout, "%d  ", ttl);
 
-    for (u8 i = 0; i < data->option.option_nqueries_value; i++) {
+    for (u8 i = 0; i < data->option.opt_v_nqueries; i++) {
         if (times[i].end_time.tv_sec == 0 && times[i].end_time.tv_usec == 0) {
             fprintf(stdout, "* ");
         } else {

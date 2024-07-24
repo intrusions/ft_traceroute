@@ -5,20 +5,20 @@ static void traceroute(t_data *data)
     t_packet packet;
     char response[MAX_PACKET_SIZE];
     u16 n_sequence;
-    t_time times[data->option.option_nqueries_value];
+    t_time times[data->option.opt_v_nqueries];
     iphdr *ip_hdr;
 
     memset(response, 0, sizeof(response));
 
     printf("traceroute to %s (%s), %d hops max, %d byte packets\n",
-                data->addr_in, data->addr, data->option.option_max_ttl_value, PACKET_SIZE);
+                data->addr_in, data->addr, data->option.opt_v_max_ttl, PACKET_SIZE);
 
-    for (u8 ttl = data->option.option_first_ttl_value; ttl <= data->option.option_max_ttl_value; ttl++) {
+    for (u8 ttl = data->option.opt_v_first_ttl; ttl <= data->option.opt_v_max_ttl; ttl++) {
         setsockopt(data->sockfd, IPPROTO_IP, IP_TTL, &ttl, sizeof(ttl));
         memset(times, 0, sizeof(times));
         n_sequence = 0;
 
-        for (u8 i = 0; i < data->option.option_nqueries_value; i++) {
+        for (u8 i = 0; i < data->option.opt_v_nqueries; i++) {
             prepare_packet(data, &packet, n_sequence);
             send_packet(data, &packet, &times[i].start_time, &n_sequence);
             recv_packet(data, response, &times[i].end_time, &n_sequence);
