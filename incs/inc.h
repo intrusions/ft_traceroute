@@ -101,7 +101,7 @@ typedef struct {
     
     char    src_ip[INET6_ADDRSTRLEN];
     char    src_hostname[NI_MAXHOST];
-} t_time;
+} t_packet_response_info;
 
 // ========================================================================= //
 //                                  Prototype                                //
@@ -121,7 +121,7 @@ u16     checksum(void *b, int len);
 void    print_man();
 bool    manage_flags(t_data *data, i32 ac, char **av);
 double  calcul_latency(timeval start_time, timeval end_time);
-void    print_line(t_data *data, u16 ttl, t_time times[]);
+void    print_line(t_data *data, u16 ttl, t_packet_response_info pri[]);
 void    close_sockfd_and_exit(t_data *data);
 bool    ip_to_hostname(char *ip, char *res);
 

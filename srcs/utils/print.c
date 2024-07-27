@@ -16,23 +16,23 @@ void print_man(void)
     );
 }
 
-void    print_line(t_data *data, u16 ttl, t_time times[])
+void    print_line(t_data *data, u16 ttl, t_packet_response_info pri[])
 {
     fprintf(stdout, "%d  ", ttl);
 
     for (u8 i = 0; i < data->option.opt_v_nqueries; i++) {
-        if (times[i].end_time.tv_sec == 0 && times[i].end_time.tv_usec == 0) {
+        if (pri[i].end_time.tv_sec == 0 && pri[i].end_time.tv_usec == 0) {
             fprintf(stdout, "* ");
         } else {
-            if (i == 0 || str_cmp(times[i].src_ip, times[i - 1].src_ip)) {
+            if (i == 0 || str_cmp(pri[i].src_ip, pri[i - 1].src_ip)) {
                 
                 if (data->flags & FLAG_N)
-                    fprintf(stdout, "%s  ", times[i].src_ip);
+                    fprintf(stdout, "%s  ", pri[i].src_ip);
                 else
-                    fprintf(stdout, "%s (%s)  ", times[i].src_hostname, times[i].src_ip);
+                    fprintf(stdout, "%s (%s)  ", pri[i].src_hostname, pri[i].src_ip);
 
             }
-            fprintf(stdout, "%.3f ms  ", calcul_latency(times[i].start_time, times[i].end_time));
+            fprintf(stdout, "%.3f ms  ", calcul_latency(pri[i].start_time, pri[i].end_time));
         }
     }
     fprintf(stdout, "\n");
