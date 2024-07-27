@@ -44,7 +44,7 @@ void print_received_packet(char *response)
     printf(" |-Sequence    : %d\n", icmp_header->un.echo.sequence);
 
     printf("[Message Data]\n");
-    printf(" |-Size        : %lu bytes\n", strlen(response + sizeof(*ip_header) + sizeof(*icmp_header)) + 1);
+    printf(" |-Size        : %lu bytes\n", str_len(response + sizeof(*ip_header) + sizeof(*icmp_header)) + 1);
     printf(" |-Content     : %s\n", response + sizeof(*ip_header) + sizeof(*icmp_header));
     printf("------------------------------------------------------------------------------\n\n");
 }

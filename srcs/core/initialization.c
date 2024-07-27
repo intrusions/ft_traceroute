@@ -15,7 +15,7 @@ bool socket_initialization(t_data *data)
 
     data->pid = getpid();
 
-    memset(&data->dest, 0, sizeof(data->dest));
+    mem_set(&data->dest, 0, sizeof(data->dest));
     data->dest.sin_family = AF_INET;
     
     if (inet_pton(AF_INET, data->addr, &data->dest.sin_addr) <= 0) {

@@ -8,14 +8,14 @@ static void traceroute(t_data *data)
     t_time times[data->option.opt_v_nqueries];
     iphdr *ip_hdr;
 
-    memset(response, 0, sizeof(response));
+    mem_set(response, 0, sizeof(response));
 
     printf("traceroute to %s (%s), %d hops max, %d byte packets\n",
                 data->addr_in, data->addr, data->option.opt_v_max_ttl, PACKET_SIZE);
 
     for (u8 ttl = data->option.opt_v_first_ttl; ttl <= data->option.opt_v_max_ttl; ttl++) {
         setsockopt(data->sockfd, IPPROTO_IP, IP_TTL, &ttl, sizeof(ttl));
-        memset(times, 0, sizeof(times));
+        mem_set(times, 0, sizeof(times));
         n_sequence = 0;
 
         for (u8 i = 0; i < data->option.opt_v_nqueries; i++) {
@@ -29,12 +29,12 @@ static void traceroute(t_data *data)
             if (!ip_to_hostname(__ip_str(ip_hdr->saddr), hostname_response_sender))
                 close_sockfd_and_exit(data);
 
-            strcpy(times[i].src_ip, __ip_str(ip_hdr->saddr));
-            strcpy(times[i].src_hostname, hostname_response_sender);
+            str_cpy(times[i].src_ip, __ip_str(ip_hdr->saddr));
+            str_cpy(times[i].src_hostname, hostname_response_sender);
         }
         print_line(data, ttl, times);
 
-        if (!strcmp(times[0].src_ip, data->addr)) {
+        if (!str_cmp(times[0].src_ip, data->addr)) {
             break ;
         }
     }
@@ -43,7 +43,7 @@ static void traceroute(t_data *data)
 int main(int ac, char **av)
 {
     t_data data;
-    memset(&data, 0, sizeof(data));
+    mem_set(&data, 0, sizeof(data));
     data.addr_in = av[ac - 1];
     options_initialization(&data.option);
 

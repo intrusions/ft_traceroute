@@ -24,7 +24,7 @@ void    print_line(t_data *data, u16 ttl, t_time times[])
         if (times[i].end_time.tv_sec == 0 && times[i].end_time.tv_usec == 0) {
             fprintf(stdout, "* ");
         } else {
-            if (i == 0 || strcmp(times[i].src_ip, times[i - 1].src_ip)) {
+            if (i == 0 || str_cmp(times[i].src_ip, times[i - 1].src_ip)) {
                 
                 if (data->flags & FLAG_N)
                     fprintf(stdout, "%s  ", times[i].src_ip);

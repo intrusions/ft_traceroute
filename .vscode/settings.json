@@ -3,6 +3,8 @@
     "files.associations": {
         "inc.h": "c",
         "ctype.h": "c",
-        "inet.h": "c"
+        "inet.h": "c",
+        "str_cpy": "c",
+        "stddef.h": "c"
     }
 }

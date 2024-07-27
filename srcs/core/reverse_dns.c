@@ -5,7 +5,7 @@ bool    reverse_dns(char *addr_in, char *addr)
     addrinfo hints;
     addrinfo *addr_info, *ptr;
 
-    memset(&hints, 0, sizeof(hints));
+    mem_set(&hints, 0, sizeof(hints));
     hints.ai_family = AF_INET;
     hints.ai_socktype = SOCK_STREAM;
 

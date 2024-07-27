@@ -5,7 +5,7 @@ bool ip_to_hostname(char *ip, char *res)
     sockaddr_in sa;
     char host[NI_MAXHOST];
 
-    memset(&sa, 0, sizeof(sa));
+    mem_set(&sa, 0, sizeof(sa));
     sa.sin_family = AF_INET;
 
     if (inet_pton(AF_INET, ip, &(sa.sin_addr)) <= 0) {
@@ -18,6 +18,6 @@ bool ip_to_hostname(char *ip, char *res)
         return false;
     }
 
-    strcpy(res, host);
+    str_cpy(res, host);
     return true;
 }

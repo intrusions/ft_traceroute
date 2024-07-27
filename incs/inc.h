@@ -133,6 +133,14 @@ void    print_line(t_data *data, u16 ttl, t_time times[]);
 void    close_sockfd_and_exit(t_data *data);
 bool    ip_to_hostname(char *ip, char *res);
 
+/* libc */
+void	*mem_set(void *s, int c, size_t n);
+char    *str_cpy(char *dest, const char *src);
+int     str_cmp(const char *s1, const char *s2);
+int     m_atoi(const char *str);
+size_t	str_len(const char *s);
+
+
 /* debug */
 void print_sent_packet(t_packet *packet);
 void print_received_packet(char *response);

@@ -34,4 +34,9 @@ SRCS :=                             \
     utils/checksum.c                \
     utils/close.c                   \
     utils/ip_to_hostname.c          \
+    libc/mem_set.c                  \
+    libc/str_cmp.c                  \
+    libc/str_cpy.c                  \
+    libc/str_len.c                  \
+    libc/m_atoi.c                   \
     debug/debug_print.c                

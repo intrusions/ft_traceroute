@@ -2,7 +2,7 @@
 
 void prepare_packet(t_data *data, t_packet *packet, u16 n_sequence)
 {
-    memset(packet, 0, sizeof(*packet));
+    mem_set(packet, 0, sizeof(*packet));
     packet->hdr.type = ICMP_ECHO;
     packet->hdr.code = 0;
     packet->hdr.un.echo.id = data->pid;
