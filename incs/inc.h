@@ -6,24 +6,16 @@
 // ========================================================================= //
 
 #include <unistd.h>
-#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include <signal.h>
-#include <fcntl.h>
 #include <netdb.h>
 #include <sys/socket.h>
-#include <sys/types.h>
 #include <sys/time.h>
-#include <sys/stat.h>
-#include <netinet/in.h>
 #include <netinet/ip_icmp.h>
 #include <arpa/inet.h>
-#include <math.h>
 #include <errno.h>
-#include <ctype.h>
 
 
 // ========================================================================= //
@@ -138,6 +130,7 @@ void	*mem_set(void *s, int c, size_t n);
 char    *str_cpy(char *dest, const char *src);
 int     str_cmp(const char *s1, const char *s2);
 int     m_atoi(const char *str);
+int     is_digit(int c);
 size_t	str_len(const char *s);
 
 

@@ -9,7 +9,7 @@ static bool set_option_value(t_data *data, i32 index, i32 ac, char **av, u8 flag
 
     u8 len = str_len(av[++index]);
     for (u8 i = 0; i < len; i++) {
-        if (!isdigit(av[index][i])) {
+        if (!is_digit(av[index][i])) {
             fprintf(stderr, "Cannot handle `%s' option with arg `%s' (argc %d)\n", av[index - 1], av[index], index + 1);
             return false;
         }

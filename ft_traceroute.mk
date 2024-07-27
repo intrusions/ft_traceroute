@@ -10,8 +10,6 @@ CFLAGS :=                           \
     -Wextra                         \
     -Werror                         \
     -pedantic                       
-# export ASAN_OPTIONS="log_path=sanitizer.log"
-# export ASAN_OPTIONS="detect_leaks=1"
 
 CFLAGS_DBG :=                       \
     -g3                             \
@@ -39,4 +37,5 @@ SRCS :=                             \
     libc/str_cpy.c                  \
     libc/str_len.c                  \
     libc/m_atoi.c                   \
+    libc/is_digit.c                 \
     debug/debug_print.c                
