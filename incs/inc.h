@@ -112,7 +112,7 @@ typedef struct {
 bool reverse_dns(char *addr_in, char *addr);
 void prepare_packet(t_data *data, t_packet *packet, u16 n_sequence);
 void send_packet(t_data *data, t_packet *packet, timeval *start_time, u16 *n_sequence);
-void recv_packet(t_data *data, char *response, timeval *end_time, u16 *n_sequence);
+void recv_packet(t_data *data, char *response, timeval *end_time);
 bool socket_initialization(t_data *data);
 void options_initialization(t_options *option);
 

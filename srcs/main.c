@@ -21,7 +21,7 @@ static void traceroute(t_data *data)
         for (u8 i = 0; i < data->option.opt_v_nqueries; i++) {
             prepare_packet(data, &packet, n_sequence);
             send_packet(data, &packet, &pri[i].start_time, &n_sequence);
-            recv_packet(data, response, &pri[i].end_time, &n_sequence);
+            recv_packet(data, response, &pri[i].end_time);
             
             ip_hdr = (iphdr *)response;
             
