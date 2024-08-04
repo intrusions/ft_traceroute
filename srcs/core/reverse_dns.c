@@ -9,8 +9,7 @@ bool    reverse_dns(char *addr_in, char *addr)
     hints.ai_family = AF_INET;
     hints.ai_socktype = SOCK_STREAM;
 
-    i32 status;
-    if ((status = getaddrinfo(addr_in, NULL, &hints, &addr_info)) != 0) {
+    if (getaddrinfo(addr_in, NULL, &hints, &addr_info) != 0) {
         __log_error("getaddrinfo error");
         return false;
     }
