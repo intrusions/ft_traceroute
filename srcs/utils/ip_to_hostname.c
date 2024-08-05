@@ -13,11 +13,11 @@ bool ip_to_hostname(char *ip, char *res)
         return false;
     }
 
-    if (getnameinfo((sockaddr*)&sa, sizeof(sa), host, sizeof(host), NULL, 0, 0) == -1) {
-        __log_error("getnameinfo error");
-        return false;
+    if (getnameinfo((sockaddr*)&sa, sizeof(sa), host, sizeof(host), NULL, 0, 0) != 0) {
+        str_cpy(res, ip);
+    } else {
+        str_cpy(res, host);
     }
 
-    str_cpy(res, host);
     return true;
 }

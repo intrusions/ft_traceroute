@@ -109,6 +109,7 @@ typedef struct {
 
 
 /* core */
+void traceroute(t_data *data);
 bool reverse_dns(char *addr_in, char *addr);
 void prepare_packet(t_data *data, t_packet *packet, u16 n_sequence);
 void send_packet(t_data *data, t_packet *packet, timeval *start_time, u16 *n_sequence);
@@ -121,7 +122,7 @@ u16     checksum(void *b, int len);
 void    print_man();
 bool    manage_flags(t_data *data, i32 ac, char **av);
 double  calcul_latency(timeval start_time, timeval end_time);
-void    print_line(t_data *data, u16 ttl, t_packet_response_info pri[]);
+void    print_line(t_data *data, t_packet_response_info pri[]);
 void    close_sockfd_and_exit(t_data *data);
 bool    ip_to_hostname(char *ip, char *res);
 

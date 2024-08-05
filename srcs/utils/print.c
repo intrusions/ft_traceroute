@@ -16,9 +16,11 @@ void print_man(void)
     );
 }
 
-void    print_line(t_data *data, u16 ttl, t_packet_response_info pri[])
+void    print_line(t_data *data, t_packet_response_info pri[])
 {
-    fprintf(stdout, "%d  ", ttl);
+    static u8 ttl = 0;
+
+    fprintf(stdout, "%d  ", ++ttl);
 
     for (u8 i = 0; i < data->option.opt_v_nqueries; i++) {
         if (pri[i].end_time.tv_sec == 0 && pri[i].end_time.tv_usec == 0) {
