@@ -33,6 +33,7 @@
 #define TRACEROUTE_DEFAULT_FIRST_TTL    1
 #define TRACEROUTE_DEFAULT_MAX_TTL      30
 #define TRACEROUTE_DEFAULT_NQUERIES     3
+
 #define PACKET_SIZE                     60
 #define MAX_PACKET_SIZE                 1024
 
@@ -44,6 +45,12 @@
 #define __ip_str(addr) inet_ntoa(*(in_addr *)&(addr))
 #define __log_error(error) (void)fprintf(stderr, "%s: %s\n", error, strerror(errno))
 
+#define DEFAULT_OPTIONS (t_options) {   \
+    TRACEROUTE_DEFAULT_FIRST_TTL,       \
+    TRACEROUTE_DEFAULT_MAX_TTL,         \
+    TRACEROUTE_DEFAULT_NQUERIES,        \
+    TRACEROUTE_DEFAULT_TIMEOUT          \
+}
 
 // ========================================================================= //
 //                                  Typedef                                  //
@@ -110,12 +117,11 @@ typedef struct {
 
 /* core */
 void traceroute(t_data *data);
+bool socket_initialization(t_data *data);
 bool reverse_dns(char *addr_in, char *addr);
 void prepare_packet(t_data *data, t_packet *packet, u16 n_sequence);
 void send_packet(t_data *data, t_packet *packet, timeval *start_time, u16 *n_sequence);
 void recv_packet(t_data *data, char *response, timeval *end_time);
-bool socket_initialization(t_data *data);
-void options_initialization(t_options *option);
 
 /* utils */
 u16     checksum(void *b, int len);
@@ -134,10 +140,8 @@ int     m_atoi(const char *str);
 int     is_digit(int c);
 size_t	str_len(const char *s);
 
-
 /* debug */
 void print_sent_packet(t_packet *packet);
 void print_received_packet(char *response);
-
 
 #endif /* INC_H */

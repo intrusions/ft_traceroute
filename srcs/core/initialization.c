@@ -30,11 +30,3 @@ bool socket_initialization(t_data *data)
     }
     return true;
 }
-
-void options_initialization(t_options *option)
-{
-    option->opt_v_first_ttl = TRACEROUTE_DEFAULT_FIRST_TTL;
-    option->opt_v_max_ttl = TRACEROUTE_DEFAULT_MAX_TTL;
-    option->opt_v_nqueries = TRACEROUTE_DEFAULT_NQUERIES;
-    option->opt_v_timeout = TRACEROUTE_DEFAULT_TIMEOUT;
-}

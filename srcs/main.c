@@ -5,7 +5,7 @@ int main(int ac, char **av)
     t_data data;
     mem_set(&data, 0, sizeof(data));
     data.addr_in = av[ac - 1];
-    options_initialization(&data.option);
+    data.option = DEFAULT_OPTIONS;
 
     av++, ac--;
 
