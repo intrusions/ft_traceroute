@@ -15,16 +15,18 @@ bool    reverse_dns(char *addr_in, char *addr)
     }
 
     for (ptr = addr_info; ptr; ptr = ptr->ai_next) {
-        void *curr_addr;
 
         if (ptr->ai_family == AF_INET) {
             sockaddr_in *ipv4 = (sockaddr_in *)ptr->ai_addr;
-            curr_addr = &(ipv4->sin_addr);
+            void *curr_addr = inet_ntoa(ipv4->sin_addr);
             
-            if (!inet_ntop(ptr->ai_family, curr_addr, addr, INET6_ADDRSTRLEN)) {
-                __log_error("inet_ntop error");
+            if (!curr_addr) {
+                __log_error("inet_ntoa error");
+                freeaddrinfo(addr_info);
                 return false;
             }
+
+            str_cpy(addr, curr_addr);
             break ;
         }
     }
